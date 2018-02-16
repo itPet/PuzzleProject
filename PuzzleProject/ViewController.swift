@@ -8,51 +8,62 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource
+    {
     
     @IBOutlet weak var playerPickerView: UIPickerView!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var timeOne: UILabel!
-    @IBOutlet weak var timeTwo: UILabel!
-    @IBOutlet weak var timeThree: UILabel!
-    @IBOutlet weak var timeFour: UILabel!
-    @IBOutlet weak var btnOne: UIButton!
-    @IBOutlet weak var btnTwo: UIButton!
-    @IBOutlet weak var btnThree: UIButton!
-    @IBOutlet weak var btnFour: UIButton!
+    @IBOutlet weak var timerTableView: UITableView!
+
     
     var timer: Timer?
     var minutes: Int = 0
     var seconds: Int = 0
-    var playerList = [Player (name: "Peter"), Player (name: "Olof"), Player(name: "Hilda"), Player(name: "Nils")]
+    var playerList = [Player]()
     var counter: Int = 0
     var btnPressed: Int = 0
+    var timeList = [String]()
+    var temporaryPlayerNameList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return timeList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "timerCell", for: indexPath) as! TableViewCellMain
+        
+        if indexPath.row < temporaryPlayerNameList.count {
+            cell.nameBtn.setTitle(temporaryPlayerNameList[indexPath.row], for: .normal)
+        }
+        cell.timeLabel.text = timeList[indexPath.row]
+        return cell
+    }
+    
+    @IBAction func nameBtnPressed(_ sender: UIButton) {
+        playerPickerView.isHidden = false
+        timerTableView.isHidden = true
+        
+        tableView(<#T##tableView: UITableView##UITableView#>, cellForRowAt: <#T##IndexPath#>)
+    }
+    
     
     @IBAction func timeLabelTapped(_ sender: UITapGestureRecognizer) {
         if counter == 0 {
             timeLabel.text = "0:0"
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.updateTimeLabel), userInfo: nil, repeats: true)
-        }
-
-        if counter == 1 {
-            timeOne.text = "1.  \(String(minutes)):\(String(seconds))"
-        }
-        
-        if counter == 2 {
-            timeTwo.text = "2.  \(String(minutes)):\(String(seconds))"
+        } else if counter < playerList.count + 1 {
+            timeList.append(timeLabel.text!)
+            timerTableView.reloadData()
         }
         
-        if counter == 3 {
-            timeThree.text = "3.  \(String(minutes)):\(String(seconds))"
-        }
-        
-        if counter == 4 {
-            timeFour.text = "4.  \(String(minutes)):\(String(seconds))"
+        if counter == playerList.count {
+            if let timer = self.timer {
+                timer.invalidate()
+            }
         }
         
         counter = counter + 1
@@ -84,17 +95,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
-        if btnPressed == 1 {
-            setButtonTitle(button: btnOne, row: row)
-        } else if btnPressed == 2 {
-            setButtonTitle(button: btnTwo, row: row)
-        } else if btnPressed == 3 {
-            setButtonTitle(button: btnThree, row: row)
-        } else if btnPressed == 4 {
-            setButtonTitle(button: btnFour, row: row)
+        if row == 0 {
+            
         }
-        
-        showButtonsHidePicker()
+        temporaryPlayerNameList.append(playerList[row - 1].getName())
+        timerTableView.reloadData()
+        playerPickerView.isHidden = true
+        timerTableView.isHidden = false
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as? ViewControllerResult
+        destination?.playerList = playerList;
     }
     
     func setButtonTitle (button: UIButton!, row: Int) {
@@ -103,42 +115,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
             button.setTitle(playerList[row - 1].getName(), for: .normal)
         }
-    }
-    
-    @IBAction func btnOnePressed(_ sender: UIButton) {
-        hideButtonsShowPicker()
-        btnPressed = 1
-    }
-    
-    @IBAction func btnTwoPressed(_ sender: UIButton) {
-        hideButtonsShowPicker()
-        btnPressed = 2
-    }
-    
-    @IBAction func btnThreePressed(_ sender: UIButton) {
-        hideButtonsShowPicker()
-        btnPressed = 3
-    }
-    
-    @IBAction func btnFourPressed(_ sender: UIButton) {
-        hideButtonsShowPicker()
-        btnPressed = 4
-    }
-    
-    func hideButtonsShowPicker(){
-        btnOne.isHidden = true
-        btnTwo.isHidden = true
-        btnThree.isHidden = true
-        btnFour.isHidden = true
-        playerPickerView.isHidden = false
-    }
-    
-    func showButtonsHidePicker() {
-        btnOne.isHidden = false
-        btnTwo.isHidden = false
-        btnThree.isHidden = false
-        btnFour.isHidden = false
-        playerPickerView.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {

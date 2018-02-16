@@ -20,4 +20,9 @@ class Player {
     func getName() -> String {
         return self.name
     }
+    
+    func getScore() -> Int {
+        return self.score
+    }
+    
 }
