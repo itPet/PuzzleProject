@@ -98,11 +98,11 @@
 				654A55C120349EE00007472A /* ViewControllerResult.swift */,
 				654A55C32034A07A0007472A /* TableViewCellResult.swift */,
 				6563ECC22036EE1B00EEA6D8 /* TableViewCellMain.swift */,
+				65195522201B4F6600F8A009 /* Player.swift */,
 				65195506201B42B500F8A009 /* Main.storyboard */,
 				65195509201B42B500F8A009 /* Assets.xcassets */,
 				6519550B201B42B500F8A009 /* LaunchScreen.storyboard */,
 				6519550E201B42B500F8A009 /* Info.plist */,
-				65195522201B4F6600F8A009 /* Player.swift */,
 				659E65B4203C3E8D007A9073 /* Localizable.strings */,
 			);
 			path = PuzzleProject;

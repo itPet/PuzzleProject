@@ -119,6 +119,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="addPlayerBtn" destination="4p0-Kv-4Bg" id="Fa5-w5-qNy"/>
                         <outlet property="addPlayerTextField" destination="iWA-63-Fjc" id="0hl-sY-wCI"/>
                         <outlet property="firstScreenTableView" destination="Ifp-xW-SGP" id="wCT-ml-PrT"/>
                     </connections>

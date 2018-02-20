@@ -10,11 +10,27 @@ import UIKit
 
 class ViewControllerAddPlayer: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    var playerList = [Player]()
     @IBOutlet weak var addPlayerTextField: UITextField!
     @IBOutlet weak var firstScreenTableView: UITableView!
+    @IBOutlet weak var addPlayerBtn: UIButton!
     
+    var playerList = [Player]()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        firstScreenTableView.tableFooterView = UIView(frame: CGRect.zero)
+        addPlayerBtn.layer.cornerRadius = 10
+        addPlayerBtn.clipsToBounds = true
+    }
+    
+    //Buttons
+    @IBAction func addPlayerBtnPressed(_ sender: UIButton) {
+        playerList.append(Player(name: addPlayerTextField.text!))
+        addPlayerTextField.text = ""
+        firstScreenTableView.reloadData()
+    }
+    
+    //TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return playerList.count
     }
@@ -23,34 +39,19 @@ class ViewControllerAddPlayer: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellAddPlayer", for: indexPath)
         cell.textLabel?.text = playerList[indexPath.row].getName()
         
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor.green
+        cell.selectedBackgroundView = bgColorView
+        
         return cell
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        firstScreenTableView.tableFooterView = UIView(frame: CGRect.zero)
-    }
-    
+    //Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as? ViewController
         destination?.playerList = playerList;
-        
     }
     
-    @IBAction func addPlayerBtnPressed(_ sender: UIButton) {
-        playerList.append(Player(name: addPlayerTextField.text!))
-        addPlayerTextField.text = ""
-        firstScreenTableView.reloadData()
-        
-        //let indexPath = IndexPath(row: playerList.count - 1, section: 0)
-        //firstScreenTableView.beginUpdates()
-        //firstScreenTableView.insertRows(at: [indexPath], with: .automatic)
-        //firstScreenTableView.endUpdates()
-    }
-    
-    
-    
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
