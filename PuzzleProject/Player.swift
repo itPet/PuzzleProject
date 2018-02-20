@@ -25,4 +25,8 @@ class Player {
         return self.score
     }
     
+    func addScore(increaseScore: Int) {
+        self.score += increaseScore
+    }
+    
 }

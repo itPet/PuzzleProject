@@ -14,7 +14,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var playerPickerView: UIPickerView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timerTableView: UITableView!
-
+    @IBOutlet weak var resultBtn: UIButton!
+    
     
     var timer: Timer?
     var minutes: Int = 0
@@ -23,10 +24,28 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var counter: Int = 0
     var btnPressed: Int = 0
     var timeList = [String]()
-    var temporaryPlayerNameList = [String]()
+    var tableViewPlayerNameList = [String]()
+    var pickerViewPlayerNameList = [String]()
+    var selectedRow: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for player in playerList{
+            tableViewPlayerNameList.append(NSLocalizedString("selectPlayer", comment: ""))
+            pickerViewPlayerNameList.append(player.getName())
+        }
+        timerTableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
+    
+    @IBAction func resultBtnPressed(_ sender: UIButton) {
+        var increaseScore = playerList.count
+        for name in tableViewPlayerNameList {
+            let index = playerList.index(where: { (Player) -> Bool in
+                Player.getName() == name
+            })
+            playerList[index!].addScore(increaseScore: increaseScore)
+            increaseScore -= 1
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,20 +55,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "timerCell", for: indexPath) as! TableViewCellMain
         
-        if indexPath.row < temporaryPlayerNameList.count {
-            cell.nameBtn.setTitle(temporaryPlayerNameList[indexPath.row], for: .normal)
+        if indexPath.row < tableViewPlayerNameList.count {
+            cell.nameBtn.setTitle(tableViewPlayerNameList[indexPath.row], for: .normal)
         }
         cell.timeLabel.text = timeList[indexPath.row]
         return cell
     }
     
-    @IBAction func nameBtnPressed(_ sender: UIButton) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         playerPickerView.isHidden = false
-        timerTableView.isHidden = true
-        
-        tableView(<#T##tableView: UITableView##UITableView#>, cellForRowAt: <#T##IndexPath#>)
+        selectedRow = indexPath.row
     }
-    
     
     @IBAction func timeLabelTapped(_ sender: UITapGestureRecognizer) {
         if counter == 0 {
@@ -65,7 +81,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 timer.invalidate()
             }
         }
-        
         counter = counter + 1
     }
     
@@ -84,24 +99,44 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return playerList.count + 1
+        return pickerViewPlayerNameList.count + 1
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
         if row == 0 {
-            return "none"
+            return NSLocalizedString("none", comment: "")
         }
-        return playerList[row - 1].getName()
+        return pickerViewPlayerNameList[row - 1]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
         if row == 0 {
-            
+            if tableViewPlayerNameList[selectedRow] != NSLocalizedString("selectPlayer", comment: ""){
+                pickerViewPlayerNameList.append(tableViewPlayerNameList[selectedRow])
+                tableViewPlayerNameList[selectedRow] = NSLocalizedString("selectPlayer", comment: "")
+            }
         }
-        temporaryPlayerNameList.append(playerList[row - 1].getName())
+        else {
+            if tableViewPlayerNameList[selectedRow] == NSLocalizedString("selectPlayer", comment: ""){
+                tableViewPlayerNameList[selectedRow] = pickerViewPlayerNameList[row - 1]
+            }
+            else {
+                pickerViewPlayerNameList.append(tableViewPlayerNameList[selectedRow])
+                tableViewPlayerNameList[selectedRow] = pickerViewPlayerNameList[row - 1]
+            }
+            pickerViewPlayerNameList.remove(at: row - 1)
+        }
+        
+        if pickerViewPlayerNameList.count == 0 {
+            resultBtn.isHidden = false
+        }
+        else {
+            resultBtn.isHidden = true
+        }
+        playerPickerView.selectRow(0, inComponent: 0, animated: false)
+        playerPickerView.reloadAllComponents()
         timerTableView.reloadData()
         playerPickerView.isHidden = true
-        timerTableView.isHidden = false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -109,13 +144,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         destination?.playerList = playerList;
     }
     
-    func setButtonTitle (button: UIButton!, row: Int) {
-        if row == 0 {
-            button.setTitle("", for: .normal)
-        } else {
-            button.setTitle(playerList[row - 1].getName(), for: .normal)
-        }
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

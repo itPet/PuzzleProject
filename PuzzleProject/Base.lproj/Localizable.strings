@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  PuzzleProject
+
+  Created by Peter Karlsson on 2018-02-20.
+  Copyright © 2018 Peter Karlsson. All rights reserved.
+*/
+
+"none" = "none";
+
+"selectPlayer" = "select player";

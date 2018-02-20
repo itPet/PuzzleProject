@@ -20,7 +20,7 @@ class ViewControllerAddPlayer: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellAddPlayer", for: indexPath)
         cell.textLabel?.text = playerList[indexPath.row].getName()
         
         return cell
@@ -28,7 +28,7 @@ class ViewControllerAddPlayer: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //firstScreenTableView.tableFooterView = UIView(frame: CGRect.zero)
+        firstScreenTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

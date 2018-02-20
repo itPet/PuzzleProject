@@ -1,0 +1,46 @@
+
+/* Class = "UIButton"; normalTitle = "Add Player"; ObjectID = "4p0-Kv-4Bg"; */
+"4p0-Kv-4Bg.normalTitle" = "Lägg till spelare";
+
+/* Class = "UINavigationItem"; title = "Puzzle Timer"; ObjectID = "8HL-AB-2Pz"; */
+"8HL-AB-2Pz.title" = "Pussel timer";
+
+/* Class = "UIBarButtonItem"; title = "Next Round"; ObjectID = "IgU-rm-6HU"; */
+"IgU-rm-6HU.title" = "Nästa runda";
+
+/* Class = "UILabel"; text = "Start timer"; ObjectID = "LPJ-CJ-rk4"; */
+"LPJ-CJ-rk4.text" = "Starta klockan";
+
+/* Class = "UINavigationItem"; title = "Score Board"; ObjectID = "Qk9-k4-xZJ"; */
+"Qk9-k4-xZJ.title" = "Resultat";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Re6-5z-nsg"; */
+"Re6-5z-nsg.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Result"; ObjectID = "VUr-JQ-6Da"; */
+"VUr-JQ-6Da.normalTitle" = "Resultat";
+
+/* Class = "UIButton"; normalTitle = "Start Game"; ObjectID = "YTF-dw-jny"; */
+"YTF-dw-jny.normalTitle" = "Starta Spelet";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ZdC-ZE-wij"; */
+"ZdC-ZE-wij.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "New Game"; ObjectID = "djY-dz-8QH"; */
+"djY-dz-8QH.normalTitle" = "Nytt Spel";
+
+/* Class = "UILabel"; text = "Name the Players"; ObjectID = "sWa-ac-AAK"; */
+"sWa-ac-AAK.text" = "Pussel Timern";
+
+/* Class = "UINavigationItem"; title = "Puzzle Game"; ObjectID = "wWM-3w-4JE"; */
+"wWM-3w-4JE.title" = "Lägg till spelare";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "zSl-oI-Y0V"; */
+"zSl-oI-Y0V.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "zbk-Ah-esU"; */
+"zbk-Ah-esU.normalTitle" = "Button";
+
+"gGR-xn-djo.text" = "Spelare";
+
+"JPU-fS-Aj8.text" = "Poäng";

@@ -10,6 +10,7 @@ import UIKit
 
 class ViewControllerResult: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var resultTableView: UITableView!
     var playerList = [Player]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -17,19 +18,22 @@ class ViewControllerResult: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            print("nu sorteras listan")
+            playerList.sort(by: { (first: Player, second: Player) -> Bool in
+                first.getScore() > second.getScore()
+            })
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! TableViewCellResult
-        
-        let name = playerList[indexPath.row].getName()
-        let score = "\(playerList[indexPath.row].getScore())"
-        cell.nameLabel.text = name
-        cell.scoreLabel.text = score
+        cell.nameLabel.text = playerList[indexPath.row].getName()
+        cell.scoreLabel.text = "\(playerList[indexPath.row].getScore())"
         return cell
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(playerList)
+        resultTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
